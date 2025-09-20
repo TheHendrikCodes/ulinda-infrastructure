@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: ulinda-postgres
+    environment:
+      POSTGRES_DB: ulinda
+      POSTGRES_USER: ulinda_user
+      POSTGRES_PASSWORD: ulinda_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ulinda-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: ulinda-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ulinda
+      SPRING_DATASOURCE_USERNAME: ulinda_user
+      SPRING_DATASOURCE_PASSWORD: ulinda_pass
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      - postgres
+    networks:
+      - ulinda-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: ulinda-frontend
+    ports:
+      - "127.0.0.1:80:80"
+    depends_on:
+      - backend
+    networks:
+      - ulinda-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ulinda-network:
+    driver: bridge
