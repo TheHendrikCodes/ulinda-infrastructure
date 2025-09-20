@@ -12,9 +12,8 @@ services:
       - ulinda-network
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
+    build: 
+      context: ./backend
     container_name: ulinda-backend
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ulinda
@@ -30,8 +29,7 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./frontend
     container_name: ulinda-frontend
     ports:
       - "127.0.0.1:80:80"
