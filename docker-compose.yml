@@ -36,11 +36,6 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`dev.ulinda.org`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.backend.loadbalancer.server.port=8080"
     depends_on:
       - postgres
     networks:
