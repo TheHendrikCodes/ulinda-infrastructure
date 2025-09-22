@@ -36,6 +36,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
+      ADMIN_SECRET: ${ADMIN_SECRET}
     depends_on:
       - postgres
     networks:
