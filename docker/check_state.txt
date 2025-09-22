@@ -1,0 +1,4 @@
+docker ps -a      # Should be empty
+docker images     # Should be empty  
+docker volume ls  # Should be empty
+docker network ls # Should show only bridge, host, none
