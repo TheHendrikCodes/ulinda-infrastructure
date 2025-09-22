@@ -2,6 +2,8 @@ services:
   traefik:
     image: traefik:v3.0
     container_name: ulinda-traefik
+    environment:
+      - ACME_EMAIL=${ACME_EMAIL}
     ports:
       - "80:80"
       - "443:443"

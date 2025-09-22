@@ -19,7 +19,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: your-email@example.com  # Replace with your email
+      email: ${ACME_EMAIL}
       storage: acme.json
       httpChallenge:
         entryPoint: web
