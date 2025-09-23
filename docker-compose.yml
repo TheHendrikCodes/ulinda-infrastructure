@@ -1,18 +1,4 @@
 services:
-  traefik:
-    image: traefik:v3.0
-    container_name: ulinda-traefik
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefik.yml:/traefik.yml:ro"
-      - "./acme.json:/acme.json"
-    networks:
-      - ulinda-network
-    restart: unless-stopped
-
   postgres:
     image: postgres:17
     container_name: ulinda-postgres
@@ -37,6 +23,8 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
       ADMIN_SECRET: ${ADMIN_SECRET}
+    ports:
+      - "127.0.0.1:${BACKEND_PORT}:8080"
     depends_on:
       - postgres
     networks:
@@ -46,11 +34,8 @@ services:
     build:
       context: ./frontend
     container_name: ulinda-frontend
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`dev.ulinda.org`)"
-      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT}:80"
     depends_on:
       - backend
     networks:
